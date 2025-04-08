@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Questions</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 25px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            color: #007bff;
+            margin-left: 10px;
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .question-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .question-list li {
+            background-color: #f1f5ff;
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .question-list li:hover {
+            background-color: #e2ecff;
+        }
+
+        .question-list a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .question-list a:hover {
+            color: #0056b3;
+        }
+
+        .post-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 18px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: background 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>All Questions</h2>
+
+        <div class="top-bar">
+            {% if user.is_authenticated %}
+                <div>Hello, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></div>
+                <a href="{% url 'post_question' %}" class="post-btn">Post a Question</a>
+            {% else %}
+                <div>
+                    <a href="{% url 'login' %}">Login</a> |
+                    <a href="{% url 'register' %}">Register</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <ul class="question-list">
+            {% for question in questions %}
+                <li><a href="{% url 'question_detail' question.pk %}">{{ question.title }}</a></li>
+            {% empty %}
+                <li>No questions posted yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
